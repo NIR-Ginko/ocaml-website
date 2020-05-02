@@ -1,0 +1,36 @@
+<?xml version="1.0" charset="UTF-8"?>
+<ocsigen>
+  <server>
+    <charset>utf-8</charset>
+    <port>8080</port>
+ 
+    <logdir>./hello_world_log</logdir>
+    <datadir>./hello_world</datadir>
+
+    <!-- For serving static content -->
+    <extension findlib-package="ocsigenserver.ext.staticmod"/>
+    <!-- To allow running CGI scripts -->
+    <extension findlib-package="ocsigenserver.ext.cgimod" />
+    <!-- This is necessary for Eliom to work -->
+    <extension findlib-package="ocsigenserver.ext.ocsipersist-sqlite"/>
+    <!-- Eliom is an OCaml web framework. This module is needed in order
+    to allow writing web applications in OCaml.
+
+    It should be noted that Eliom server is unable to work without
+    previous module (Ocsipersist) but you need to specify module
+    that fits your system: ocsipersist-sqlite, ocsipersist-pgsql,
+    ocsipersist-dbm. The necessary modules will be compiled during
+    Eliom install. -->
+    <extension findlib-package="eliom.server"/>
+
+    <commandpipe>hello_world-run</commandpipe>
+    <host hostfilter="*" defaulthostname="localhost">
+      <site dir="" charset="utf-8">
+        <cgi root="cgi-bin" dir="./cgi-bin/" />
+        <static dir="./_client" />
+        <eliommodule module="./_server/hello_world.cma"/>
+      </site>
+    </host>
+  </server>
+</ocsigen>
+
