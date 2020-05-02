@@ -14,6 +14,13 @@ let content =
         )
       )
 
-(*let main_service =
-  Eliom_registration.Html.create_attached_get ~path:[] ~get_params:Eliom_parameter.unit content
-*)
+let main_service = Eliom_content.Html.D.(
+  Eliom_registration.Html.create
+    ~path:(Eliom_service.Path [""])
+    ~meth:(Eliom_service.Get Eliom_parameter.unit)
+    (fun () () ->
+      Lwt.return
+        (html (head (title (txt "")) [])
+           (body [h1 [txt "Hello"]])))
+)
+
